@@ -19,7 +19,7 @@ VNVE（视觉故事创作）用于把故事、角色对白和剧本组织成本�
 
 ## Getting started
 
-- [README](README.md): project overview, 25-second demo, setup, examples and FAQ.
+- [README](README.md): project overview, feature demo, setup, examples and FAQ.
 - [VNVE Skill](skills/vnve/SKILL.md): full Agent creation and editing workflow.
 - [CLI installation](skills/vnve/references/installation.md): binaries, checksum validation and platform support.
 - [Version contract](skills/vnve/cli.json): required CLI version, API version and release tag.

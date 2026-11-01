@@ -1,7 +1,7 @@
 # README 演示素材
 
 - `vnve-demo-1080p.mp4`：25 秒、1920×1080、30 fps、H.264，无音轨。
-- `vnve-demo-preview.gif`：演出片段的循环预览，点击 README 中的预览可打开完整 MP4。
+- `vnve-demo-preview.gif`：README 中展示的演出片段循环预览。
 
 展示流程为输入故事、Agent 读取 Skill、演出样例、本地浏览器预览和 MP4 导出。视频由真实操作与 VNVE 实际导出片段剪辑而成，素材部分预先准备，不表示实时完整制作耗时。
 

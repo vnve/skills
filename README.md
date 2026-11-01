@@ -8,13 +8,9 @@ _An Agent Skill for turning text into editable visual stories, with a local brow
 
 [快速开始](#快速开始) · [CLI 下载](https://github.com/vnve/skills/releases/tag/cli-v0.3.0) · [创作指南](skills/vnve/SKILL.md) · [文档导航](#文档导航) · [AI 文档索引](llms.txt)
 
-## 25 秒功能演示
+## 功能演示
 
-[![VNVE 功能演示：人物介绍、漫画切入、镜头与光影演出；点击打开 1080p 视频](docs/media/vnve-demo-preview.gif)](docs/media/vnve-demo-1080p.mp4)
-
-**[观看 / 下载 1080p MP4](docs/media/vnve-demo-1080p.mp4)**（25 秒，静音字幕，约 1.8 MB）
-
-演示流程：**输入故事 → Agent 读取 Skill → 编排演出 → 浏览器预览与微调 → 导出 MP4**。视频由真实操作与实际导出画面剪辑，部分素材预先准备；它展示工作流程，不代表 25 秒内完成全部制作。
+![VNVE 功能演示：人物介绍、漫画切入、镜头与光影演出](docs/media/vnve-demo-preview.gif)
 
 ## 主要能力
 
