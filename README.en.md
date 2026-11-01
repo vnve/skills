@@ -6,7 +6,7 @@
 
 VNVE is an Agent Skill for creating **visual novels, character dialogue videos and short narrative films**. Your host Agent organizes text into characters, scenes, dialogue, voice recordings and visual performance. A local browser editor lets you preview the result, adjust details and export a video while keeping the project editable.
 
-[Quick start](#quick-start) · [Download the CLI](https://github.com/vnve/skills/releases/tag/cli-v0.3.0) · [Creation guide](skills/vnve/SKILL.md) · [Documentation](#documentation) · [AI documentation index](llms.txt)
+[Website](https://vnve.github.io/skills/en/) · [Quick start](#quick-start) · [Download the CLI](https://github.com/vnve/skills/releases/tag/cli-v0.3.0) · [Creation guide](skills/vnve/SKILL.md) · [Documentation](#documentation) · [AI documentation index](llms.txt)
 
 ## Demo
 

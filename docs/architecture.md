@@ -33,7 +33,8 @@ skills/vnve/
   cli.json                CLI 版本、接口版本与发布目标
   references/installation.md  平台二进制获取与版本校验
   assets/                  内置图片、音频与媒体清单
-scripts/                  开发、构建与来源校验
+site/                     中英文静态介绍站，独立于编辑器与本地运行时
+scripts/                  开发、构建与来源校验（含介绍站静态构建）
 tests/                   见下方测试约定
 ```
 
@@ -58,3 +59,7 @@ tests/                   见下方测试约定
 单模块测试与源码就近存放。`tests/integration/` 验证剧本编译、播放组装和帧采样组合；`tests/install/` 验证复制安装与标准 skills 安装器；`tests/browser/` 使用发行二进制、隔离作品和离线语音，驱动真实浏览器编辑、恢复、预览及 MP4 导出，再核验解码、关键帧和语音对齐。浏览器套件单独运行和出具报告，不替代其他发布验收。
 
 构建脚本先生成 `.dev/runtime/`，再将 CLI、SDK 和网页编译为 `dist/vnve-<target>`，附带来源摘要与 SHA-256。临时目录和二进制不提交 Git；CI 在目标系统构建验收后上传附件。Skill 与 CLI 的接口版本由 cli.json 和 doctor 校验。
+
+## 项目介绍站
+
+`site/` 通过 `scripts/build-site.mjs` 生成静态 HTML 与公开演示资源，输出 `.dev/site`，由独立 GitHub Pages 工作流发布。介绍站只链接创作与安装文档，不导入内核、不接入本机工作区、不提供网页创作 Agent，也不调用外部生成服务。

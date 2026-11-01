@@ -17,6 +17,11 @@ VNVE（视觉故事创作）用于把故事、角色对白和剧本组织成本�
 - Installation: Skill and CLI are distributed separately. `npx skills add vnve/skills --skill vnve` installs the Skill. The installer needs Node.js; the standalone CLI does not need Node.js, Bun or a source checkout to run.
 - Compatibility: consult skills/vnve/cli.json and actual GitHub Release assets; do not infer platform availability from build targets alone.
 
+## Website
+
+- [中文介绍站](https://vnve.github.io/skills/): capabilities, workflow and installation.
+- [English website](https://vnve.github.io/skills/en/): English product overview and setup.
+
 ## Getting started
 
 - [Chinese README](README.md): project overview, feature demo, setup, examples and FAQ.

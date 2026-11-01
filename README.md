@@ -8,7 +8,7 @@ VNVE 是一个用于**视觉小说（Visual Novel）、角色对白视频和剧�
 
 _An Agent Skill for turning text into editable visual stories, with a local browser editor and MP4 export._
 
-[快速开始](#快速开始) · [CLI 下载](https://github.com/vnve/skills/releases/tag/cli-v0.3.0) · [创作指南](skills/vnve/SKILL.md) · [文档导航](#文档导航) · [AI 文档索引](llms.txt)
+[项目官网](https://vnve.github.io/skills/) · [快速开始](#快速开始) · [CLI 下载](https://github.com/vnve/skills/releases/tag/cli-v0.3.0) · [创作指南](skills/vnve/SKILL.md) · [文档导航](#文档导航) · [AI 文档索引](llms.txt)
 
 ## 功能演示
 
