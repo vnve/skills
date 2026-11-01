@@ -1,0 +1,47 @@
+# VNVE Skill
+
+> An Agent Skill for creating editable visual novels and dialogue videos from text. A standalone local CLI manages projects; a browser editor previews, edits and exports MP4.
+
+VNVE（视觉故事创作）用于把故事、角色对白和剧本组织成本地可编辑作品。This index links to the repository's human-readable source documentation; it does not replace runtime schemas.
+
+## Project facts
+
+- Input: story text, dialogue or a structured script, plus optional user media.
+- Output: editable local projects and shared media; MP4 is encoded in the browser.
+- Host Agent: story adaptation, media search or generation, TTS and CLI execution. WorkBuddy is one demonstrated host, not a requirement of the project format.
+- Local browser editor: preview, direct adjustments, autosave and MP4 export. The editor does not host a creative Agent or a cloud generation gateway.
+- Visual performance: characters, expressions, blocking, cameras, transitions, weather, comic cut-ins, introductions and custom layered animation.
+- Custom performance: the host can write deterministic animation algorithms and bake them into numerical tracks. The browser plays validated data rather than creative scripts.
+- Media: optional starter assets, imported user media or assets generated through host-selected services. TTS and image generation may incur provider fees; opening projects and saving settings do not trigger paid calls.
+- Storage: projects and shared media are local; provider credentials are stored separately in user-level settings, not in project files.
+- Installation: Skill and CLI are distributed separately. `npx skills add vnve/skills --skill vnve` installs the Skill. The installer needs Node.js; the standalone CLI does not need Node.js, Bun or a source checkout to run.
+- Compatibility: consult skills/vnve/cli.json and actual GitHub Release assets; do not infer platform availability from build targets alone.
+
+## Getting started
+
+- [README](README.md): project overview, 25-second demo, setup, examples and FAQ.
+- [VNVE Skill](skills/vnve/SKILL.md): full Agent creation and editing workflow.
+- [CLI installation](skills/vnve/references/installation.md): binaries, checksum validation and platform support.
+- [Version contract](skills/vnve/cli.json): required CLI version, API version and release tag.
+- [GitHub Releases](https://github.com/vnve/skills/releases): available release artifacts.
+
+## Creation and editing
+
+- [Production](skills/vnve/references/production.md): story beats, dialogue timing and delivery checks.
+- [Common visual effects](skills/vnve/references/common-effects.md): standard performance entry points and camera choices.
+- [Special performance](skills/vnve/references/performance.md): comic, duel, introductions, memory and subjective awakening.
+- [Custom animation](skills/vnve/references/animation.md): deterministic timeline and numerical-track workflow.
+- [Visual primitives](skills/vnve/references/visual-primitives.md): layers, masks, blending and particles.
+- [Media and audio](skills/vnve/references/media.md): image, sound, font and voice imports.
+- [TTS services](skills/vnve/references/services.md): supported provider configuration and credential boundaries.
+- [Dialogue themes](skills/vnve/references/dialogue.md): dialogue layout and typography.
+- [Editing](skills/vnve/references/editing.md): validated atomic patches and project editing.
+
+## CLI and development
+
+- [CLI guide](skills/vnve/references/cli-guide.md): commands, workspace layout and saving behavior.
+- [Runtime contract](skills/vnve/references/runtime.md): schemas, inspect results and host integration.
+- [Glossary](GLOSSARY.md): project, media, character and performance terminology.
+- [Architecture](docs/architecture.md): package boundaries.
+- [Browser acceptance](docs/browser-acceptance.md): real preview and MP4 verification.
+- [Publishing](docs/publishing.md): Skill and standalone CLI distribution.
