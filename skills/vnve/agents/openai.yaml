@@ -1,0 +1,4 @@
+interface:
+  display_name: "vnve 创作"
+  short_description: "从文本组织角色、场景与配音，交付可预览和导出的本地视觉小说项目"
+  default_prompt: "使用 $vnve 将我的故事制作成可在本地网页编辑器中预览和导出的项目。"

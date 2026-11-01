@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "baseUrl": ".",
+    "paths": {
+      "@vnve/core": [
+        "packages/core/src"
+      ],
+      "@vnve/parser": [
+        "packages/parser/src"
+      ],
+      "@vnve/runtime": [
+        "packages/runtime/src"
+      ],
+      "@vnve/renderer": [
+        "packages/renderer/src"
+      ],
+      "@vnve/media": [
+        "packages/media/src"
+      ],
+      "@vnve/compiler": [
+        "packages/compiler/src"
+      ],
+      "@vnve/renderer/sequence": [
+        "packages/renderer/src/sequence.ts"
+      ],
+      "@vnve/renderer/playback": [
+        "packages/renderer/src/playback/index.ts"
+      ],
+      "@vnve/authoring": [
+        "packages/authoring/src"
+      ]
+    }
+  }
+}

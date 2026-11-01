@@ -1,0 +1,35 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "emitDeclarationOnly": false,
+    "jsx": "react-jsx",
+    "lib": [
+      "ES2023",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "allowJs": true,
+    "checkJs": false,
+    "skipLibCheck": true,
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "apps/editor/src/**/*",
+    "packages/core/src/**/*",
+    "packages/parser/src/**/*",
+    "packages/runtime/src/**/*",
+    "packages/renderer/src/**/*",
+    "packages/media/src/**/*",
+    "apps/cli/src/**/*",
+    "packages/compiler/src/**/*",
+    "packages/authoring/src/**/*"
+  ],
+  "exclude": [
+    "**/*.test.*",
+    "**/__tests__/**"
+  ]
+}

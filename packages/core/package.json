@@ -1,0 +1,24 @@
+{
+  "name": "@vnve/core",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.0"
+  },
+  "dependencies": {
+    "nanoid": "^5.1.6",
+    "zod": "^4.3.6",
+    "zod-to-json-schema": "^3.25.1"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./production/placeholders": "./src/production/placeholders.ts",
+    "./production/stage": "./src/production/stage.ts"
+  }
+}

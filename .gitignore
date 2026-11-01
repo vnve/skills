@@ -1,0 +1,19 @@
+node_modules/
+.pnpm-store/
+.dev/
+**/dist/
+coverage/
+.DS_Store
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+*.tsbuildinfo
+.agents/skills/
+
+__pycache__/
+*.pyc
+
+# Local workspaces and investigation notes
+.scratch/
+.vnve/

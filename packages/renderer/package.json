@@ -1,0 +1,21 @@
+{
+  "name": "@vnve/renderer",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "@vnve/core": "workspace:*",
+    "@vnve/runtime": "workspace:*",
+    "konva": "^10.2.0",
+    "@vnve/compiler": "workspace:*"
+  },
+  "devDependencies": {
+    "happy-dom": "^16.0.0"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./sequence": "./src/sequence.ts",
+    "./playback": "./src/playback/index.ts"
+  }
+}

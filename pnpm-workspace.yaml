@@ -1,0 +1,10 @@
+packages:
+  - apps/editor
+  - packages/compiler
+  - packages/core
+  - packages/parser
+  - packages/runtime
+  - packages/renderer
+  - packages/media
+  - apps/cli
+  - packages/authoring

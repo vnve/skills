@@ -1,0 +1,35 @@
+/* vnve primitives own control appearance; only playback geometry lives here. */
+.editor-progress[data-slot="slider"] {
+  flex: 1;
+  min-width: 32px;
+  height: 28px;
+}
+.editor-progress [data-slot="slider-track"] {
+  /* Align the thumb center with the visible rail at both endpoints. */
+  margin-inline: 6px;
+}
+.voice-preview {
+  min-width: 0;
+}
+.voice-preview audio {
+  display: none;
+}
+.voice-error {
+  color: var(--destructive);
+  font-size: 11px;
+}
+
+/* vnve Progress geometry; color always follows the existing brand token. */
+.export-progress {
+  width: 180px;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.1);
+}
+.export-progress [data-slot="progress-indicator"] {
+  width: 100%;
+  height: 100%;
+  background: var(--brand);
+  transition: transform 120ms linear;
+}

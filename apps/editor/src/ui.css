@@ -1,0 +1,46 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@import "tw-animate-css";
+@import "./theme.css";
+@source './**/*.{ts,tsx}';
+@layer base {
+  .vnve-ui {
+    font-family: inherit;
+  }
+  .vnve-ui :where(button, input, textarea) {
+    font: inherit;
+    color: inherit;
+    margin: 0;
+  }
+  .vnve-ui :where(button) {
+    background: transparent;
+    border: 0 solid;
+    cursor: pointer;
+  }
+  .vnve-ui :where(input, textarea) {
+    border: 0 solid;
+  }
+  .vnve-ui :where(svg) {
+    display: block;
+  }
+}
+.studio-error {
+  position: fixed;
+  bottom: 3vh;
+  left: 5vw;
+  right: 5vw;
+  z-index: 100;
+  background: #501c21;
+  padding: 12px;
+  border-radius: 6px;
+}
+@media (max-width: 800px) {
+  [data-testid="theme-studio-dialog"] > .grid {
+    grid-template-columns: minmax(0, 1fr);
+    overflow-y: auto;
+  }
+  [data-testid="theme-studio-dialog"] > .grid > :first-child {
+    min-height: 300px;
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "vnve-skill",
+  "version": "0.3.0-test.9",
+  "type": "module",
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=22.20.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/dev.mjs",
+    "test": "vitest run && node --test apps/cli/src/**/*.test.mjs tests/install/runtime.test.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "check:skill": "node scripts/check-skill.mjs",
+    "vnve": "node scripts/run-cli.mjs",
+    "format": "prettier --write apps/editor/src apps/cli/src scripts skills/vnve/SKILL.md skills/vnve/references",
+    "test:install": "node --test tests/install/install.test.mjs",
+    "test:browser": "node tests/browser/run.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "bun": "1.4.3",
+    "esbuild": "0.25.12",
+    "prettier": "3.8.3",
+    "skills": "1.7.2",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "description": "Agent Skill and self-contained local editor for creating visual stories and exporting MP4.",
+  "license": "MIT",
+  "private": true
+}
