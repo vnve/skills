@@ -1,5 +1,7 @@
 # VNVE Skill
 
+**简体中文** | [English](README.en.md)
+
 **把故事交给 Agent，在本地预览、微调并导出 MP4。**
 
 VNVE 是一个用于**视觉小说（Visual Novel）、角色对白视频和剧情短片**创作的 Agent Skill。它让宿主 Agent 将文本组织为人物、场景、对白、配音和演出，生成可继续编辑的本地作品，再由浏览器编辑器预览、调整并导出视频。
