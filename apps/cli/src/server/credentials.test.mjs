@@ -94,7 +94,10 @@ test("credentials require a local session, remain outside workspace and never ec
     JSON.parse(await readFile(file, "utf8")).services[input.id].token,
     "test-secret",
   );
-  assert.equal((await stat(file)).mode & 0o777, 0o600);
+  // Windows does not implement POSIX owner/group/other mode bits. Keep the
+  // exact 0600 check on POSIX; all credential behavior checks run on every OS.
+  if (process.platform !== "win32")
+    assert.equal((await stat(file)).mode & 0o777, 0o600);
   const status = await (await send({ action: "status", id: input.id })).json();
   assert.equal(status.configured, true);
   assert.equal(JSON.stringify(status).includes("test-secret"), false);
