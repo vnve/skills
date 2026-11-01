@@ -23,7 +23,11 @@ if (
 )
   throw new Error("CLI binary integrity check failed");
 const skill = await readFile(new URL("skills/vnve/SKILL.md", root), "utf8");
-if (!/^---\nname: vnve\ndescription: .+\n---/.test(skill))
+if (
+  !/^---\r?\nname: vnve\r?\ndescription: [^\r\n]+\r?\n---(?:\r?\n|$)/.test(
+    skill,
+  )
+)
   throw new Error("Invalid Skill frontmatter");
 const compatibility = JSON.parse(
   await readFile(new URL("skills/vnve/cli.json", root), "utf8"),

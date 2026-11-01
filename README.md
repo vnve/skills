@@ -20,7 +20,7 @@ VNVE Skill 是一个用于视觉小说（Visual Novel）与对白视频创作的
 
 ### 1. 安装 Skill
 
-公开仓库可访问后，使用支持 Agent Skills 的安装器：
+使用支持 Agent Skills 的安装器，从公开仓库 [vnve/skills](https://github.com/vnve/skills) 安装：
 
 ```sh
 npx skills add vnve/skills --skill vnve
@@ -36,13 +36,15 @@ npx skills add /absolute/path/to/vnve-skill --skill vnve --agent codex --copy
 
 ### 2. 获取独立 CLI
 
-Skill 与 CLI **分开安装**。按 [CLI 安装指南](skills/vnve/references/installation.md)，从 [Releases](https://github.com/vnve/skills/releases) 获取与 [版本声明](skills/vnve/cli.json) 匹配的平台附件、校验 SHA-256，并将二进制放到 PATH 中，或使用绝对路径调用。
+Skill 与 CLI **分开安装**，安装 Skill 不会自动安装 CLI。当前尚未发布 CLI Release，可按下方[参与开发](#参与开发)中的步骤从源码构建，使用生成的 `dist/vnve-<target>` 二进制。
+
+后续发行包统一通过 [Releases](https://github.com/vnve/skills/releases) 提供；下载与 [版本声明](skills/vnve/cli.json) 匹配的平台附件并校验 SHA-256，具体步骤见 [CLI 安装指南](skills/vnve/references/installation.md)。将二进制放到 PATH 中，或使用绝对路径调用：
 
 ```sh
 vnve doctor
 ```
 
-CLI 内嵌编辑器、运行时与演出 SDK，执行无需 Node.js、Bun、源码或 `node_modules`。构建目标包含 macOS、Linux 与 Windows，具体平台是否可用以该版本已发布并验收的附件为准。若指定附件尚未发布，需要维护者提供对应构建；安装 Skill 本身不会安装 CLI。
+CLI 内嵌编辑器、运行时与演出 SDK，执行无需 Node.js、Bun、源码或 `node_modules`。构建目标包含 macOS、Linux 与 Windows；各平台的发行支持以实际发布附件及目标系统验收结果为准。
 
 ### 3. 让 Agent 开始制作
 
@@ -89,6 +91,8 @@ Skill 附带[可选起步素材包](skills/vnve/assets/README.md)，也支持导
 本仓库同时维护 Skill、CLI、编辑器与测试。开发环境使用 Node.js 22.20+ 和 pnpm；固定版本 Bun 由开发依赖提供。
 
 ```sh
+git clone https://github.com/vnve/skills.git
+cd skills
 pnpm install --frozen-lockfile
 pnpm build
 mkdir -p /tmp/vnve-debug

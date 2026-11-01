@@ -1,8 +1,12 @@
 import { test } from "node:test";
+import { createHash } from "node:crypto";
+import { pathToFileURL } from "node:url";
+import { sourceDigest } from "../../scripts/source-digest.mjs";
 import assert from "node:assert/strict";
 import {
   mkdtemp,
   copyFile,
+  cp,
   chmod,
   mkdir,
   rm,
@@ -257,5 +261,62 @@ test("standalone CLI works without source, modules, Node or Bun on PATH", async 
       })
     ).status,
     403,
+  );
+});
+
+test("Skill validation accepts LF and CRLF but rejects malformed frontmatter", async (context) => {
+  const root = await mkdtemp(join(tmpdir(), "vnve-skill-check-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  const repo = new URL("../../", import.meta.url);
+  for (const relative of [
+    "apps",
+    "packages",
+    "scripts",
+    "skills/vnve/assets",
+    "package.json",
+    "pnpm-lock.yaml",
+  ]) {
+    await cp(new URL(relative, repo), join(root, relative), {
+      recursive: true,
+      filter: (path) =>
+        !["node_modules", "dist", ".dev"].includes(path.split(/[\\/]/).at(-1)),
+    });
+  }
+  const skillPath = join(root, "skills/vnve/SKILL.md");
+  const skill = (
+    await readFile(new URL("skills/vnve/SKILL.md", repo), "utf8")
+  ).replace(/\r\n/g, "\n");
+  const compatibility = JSON.parse(
+    await readFile(new URL("skills/vnve/cli.json", repo), "utf8"),
+  );
+  await writeFile(
+    join(root, "skills/vnve/cli.json"),
+    JSON.stringify(compatibility),
+  );
+  await mkdir(join(root, "dist"));
+  const name = `vnve-${target}${process.platform === "win32" ? ".exe" : ""}`;
+  const bytes = Buffer.from("integrity fixture: not executed");
+  await writeFile(join(root, "dist", name), bytes);
+  await writeFile(
+    join(root, "dist", `${name}.json`),
+    JSON.stringify({
+      ...compatibility,
+      target,
+      sourceDigest: await sourceDigest(pathToFileURL(root + "/")),
+      sha256: createHash("sha256").update(bytes).digest("hex"),
+    }),
+  );
+  const run = () =>
+    execFileSync(process.execPath, [join(root, "scripts/check-skill.mjs")], {
+      encoding: "utf8",
+      stdio: "pipe",
+    });
+  for (const eol of ["\n", "\r\n"]) {
+    await writeFile(skillPath, skill.replace(/\n/g, eol));
+    assert.match(run(), /Skill compatibility.*OK/);
+  }
+  await writeFile(skillPath, skill.replace("name: vnve", "name: invalid"));
+  assert.throws(run, (error) =>
+    /Invalid Skill frontmatter/.test(String(error.stderr)),
   );
 });

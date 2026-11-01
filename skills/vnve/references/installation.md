@@ -14,7 +14,7 @@ Skill 提供制作指引，CLI 是另行获取的独立二进制。先查 PATH �
 | Linux   | ARM64         | vnve-linux-arm64     |
 | Windows | x64           | vnve-windows-x64.exe |
 
-附件发布前不会凭空存在。若指定版本尚未发布或下载失败，说明缺少该平台发行包；维护者可提供本地 dist 文件，不能拿其他架构文件或源码脚本冒充可执行文件。Windows ARM64 尚未列为支持目标。
+若 Releases 中没有指定版本或平台的附件，可按下方「本地开发」从源码构建，或请维护者提供对应的 dist 二进制。下载失败时先检查版本、平台与网络连接，不要使用其他架构的文件替代。Windows ARM64 尚未列为支持目标。
 
 核对下载文件的 SHA-256 与发布附件一致。macOS 使用 `shasum -a 256`，Linux 使用 `sha256sum`，Windows 使用 PowerShell `Get-FileHash -Algorithm SHA256`。仅执行官方来源且校验通过的文件。macOS/Linux 赋予执行权限后，可放到用户 PATH 目录并命名为 vnve；Windows 保留 .exe。不要修改系统目录或自动更改用户 shell 配置；也可以直接引用绝对路径运行。
 
