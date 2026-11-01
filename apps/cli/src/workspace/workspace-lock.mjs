@@ -64,7 +64,10 @@ export async function withWorkspaceLock(
         await rename(candidate, lock);
         acquired = true;
       } catch (error) {
-        if (!["EEXIST", "ENOTEMPTY"].includes(error.code)) throw error;
+        // Windows reports EPERM when the nonempty lock directory already exists.
+        // Inspect the destination before treating that error as lock contention.
+        if (!["EEXIST", "ENOTEMPTY", "EPERM"].includes(error.code)) throw error;
+        const renameError = error;
         let entries;
         try {
           const lockStat = await lstat(lock);
@@ -75,7 +78,15 @@ export async function withWorkspaceLock(
             );
           entries = await readdir(lock);
         } catch (error) {
-          if (error.code === "ENOENT") continue;
+          if (error.code === "ENOENT") {
+            if (renameError.code === "EPERM") {
+              // The holder may have released between rename and lstat. Retry, but
+              // preserve a real permission failure if no lock ever appears.
+              if (Date.now() >= deadline) throw renameError;
+              await delay(20);
+            }
+            continue;
+          }
           throw error;
         }
         if (

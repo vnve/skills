@@ -20,7 +20,11 @@ VNVE Skill 是一个用于视觉小说（Visual Novel）与对白视频创作的
 
 ### 1. 安装 Skill
 
-使用支持 Agent Skills 的安装器，从公开仓库 [vnve/skills](https://github.com/vnve/skills) 安装：
+直接对 AI 助手说：
+
+> 请你帮我安装下 vnve/skills。
+
+手动安装时，使用支持 Agent Skills 的安装器，从公开仓库 [vnve/skills](https://github.com/vnve/skills) 安装：
 
 ```sh
 npx skills add vnve/skills --skill vnve

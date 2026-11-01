@@ -1,6 +1,6 @@
 {
   "name": "vnve-skill",
-  "version": "0.3.0-test.9",
+  "version": "0.3.0",
   "type": "module",
   "packageManager": "pnpm@9.0.0",
   "engines": {
