@@ -27,11 +27,20 @@ pnpm check:skill linux-arm64
 
 CI 在 macOS、Linux、Windows 的本机目标构建并运行完整测试，上传二进制附件供维护者审阅。其他架构可交叉编译，但必须在目标系统验收后才声称支持。真实浏览器 MP4、真实 TTS 和素材许可单独验收。各平台的支持声明以该版本的目标系统运行验收为准。
 
-## 首次发布
+## 自动创建 Release
 
-发布流程需由维护者显式执行。源码与项目文档采用 [MIT License](../LICENSE)；第三方依赖与素材遵循各自许可。公开发布前确认许可证随分发保留、第三方素材的再分发授权、仓库可访问性和目标平台验收结果。
+普通分支推送和 PR 运行构建、测试并上传 Actions artifacts；推送 `cli-v*` 标签还会在三个平台全部验证通过后，自动创建 GitHub Release，上传二进制、同名 `.sha256`、`.json` 及 `LICENSE`。发布步骤只使用本次运行的 artifacts，不重新构建。标签必须与根 package.json 的 version 和 skills/vnve/cli.json 的 version、releaseTag 一致，否则停止发布。带预发布后缀的版本自动标记为 prerelease；已存在的 Release 不覆盖。
 
-在 cli.json 指定的仓库和 releaseTag 对应的 Release 上传每个已验收平台的二进制及对应 .sha256、.json。macOS 的下载分发还需处理签名与公证，不能用本地编译通过冒充 Gatekeeper 验收。
+例如发布 `0.3.0`，先将版本声明和代码提交、推送，再执行：
+
+```sh
+git tag -a cli-v0.3.0 -m "VNVE CLI 0.3.0"
+git push origin cli-v0.3.0
+```
+
+自动附件覆盖当前 CI 矩阵中 macOS、Linux、Windows runner 的本机架构，不代表 cli.json 列出的所有架构都已有发行包。其余架构仍需在目标系统验收后另行提供。
+
+源码与项目文档采用 [MIT License](../LICENSE)；第三方依赖与素材遵循各自许可。推送发布标签前完成真实浏览器与素材授权验收。macOS 的下载分发还需处理签名与公证，不能用本地编译通过冒充 Gatekeeper 验收。
 
 然后在临时消费者环境，从公开 Release 下载并校验 CLI，安装 Skill、运行 doctor/create/inspect/compile/serve，完成浏览器导出。公开 GitHub 下载链路只有发布后才能验收。
 

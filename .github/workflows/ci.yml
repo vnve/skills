@@ -1,5 +1,11 @@
 name: Skill and standalone CLI
-on: [push, pull_request]
+on:
+  push:
+    branches: ["**"]
+    tags: ["cli-v*"]
+  pull_request:
+permissions:
+  contents: read
 jobs:
   verify:
     strategy:
@@ -26,3 +32,56 @@ jobs:
         with:
           name: vnve-${{ runner.os }}-${{ runner.arch }}
           path: dist/vnve-*
+          if-no-files-found: error
+  release:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/cli-v')
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: release-${{ github.ref }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: vnve-*
+          merge-multiple: true
+          path: dist
+      - name: Check release version and attachments
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          node --input-type=module <<'JS'
+          import { readFile, readdir } from 'node:fs/promises';
+          const pkg = JSON.parse(await readFile('package.json', 'utf8'));
+          const cli = JSON.parse(await readFile('skills/vnve/cli.json', 'utf8'));
+          if (pkg.version !== cli.version || cli.releaseTag !== `cli-v${cli.version}` || process.env.RELEASE_TAG !== cli.releaseTag)
+            throw new Error('Release tag must match package.json and cli.json');
+          const manifests = (await readdir('dist')).filter(name => name.endsWith('.json'));
+          if (manifests.length !== 3) throw new Error('Expected three native platform builds');
+          const targets = new Set();
+          for (const name of manifests) {
+            const build = JSON.parse(await readFile(`dist/${name}`, 'utf8'));
+            if (build.version !== cli.version || build.apiVersion !== cli.apiVersion || !cli.targets.includes(build.target) || targets.has(build.target))
+              throw new Error(`Invalid release build: ${name}`);
+            targets.add(build.target);
+          }
+          JS
+          cd dist
+          sha256sum --check vnve-*.sha256
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          args=(--verify-tag --generate-notes --title "VNVE $RELEASE_TAG")
+          if [[ "${RELEASE_TAG#cli-v}" == *-* ]]; then
+            args+=(--prerelease)
+          fi
+          gh release create "$RELEASE_TAG" dist/vnve-* LICENSE "${args[@]}"
