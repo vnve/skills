@@ -2,7 +2,6 @@ name: Skill and standalone CLI
 on:
   push:
     branches: ["**"]
-    tags: ["cli-v*"]
   pull_request:
 permissions:
   contents: read
@@ -34,13 +33,13 @@ jobs:
           path: dist/vnve-*
           if-no-files-found: error
   release:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/cli-v')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: verify
     runs-on: ubuntu-latest
     permissions:
       contents: write
     concurrency:
-      group: release-${{ github.ref }}
+      group: release-main
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
@@ -53,15 +52,15 @@ jobs:
           merge-multiple: true
           path: dist
       - name: Check release version and attachments
-        env:
-          RELEASE_TAG: ${{ github.ref_name }}
+        id: metadata
         run: |
           node --input-type=module <<'JS'
-          import { readFile, readdir } from 'node:fs/promises';
+          import { appendFile, readFile, readdir } from 'node:fs/promises';
           const pkg = JSON.parse(await readFile('package.json', 'utf8'));
           const cli = JSON.parse(await readFile('skills/vnve/cli.json', 'utf8'));
-          if (pkg.version !== cli.version || cli.releaseTag !== `cli-v${cli.version}` || process.env.RELEASE_TAG !== cli.releaseTag)
-            throw new Error('Release tag must match package.json and cli.json');
+          if (!/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/.test(cli.version) || pkg.version !== cli.version || cli.releaseTag !== `cli-v${cli.version}`)
+            throw new Error('Valid version and releaseTag must match package.json and cli.json');
+          await appendFile(process.env.GITHUB_OUTPUT, `tag=${cli.releaseTag}\n`);
           const manifests = (await readdir('dist')).filter(name => name.endsWith('.json'));
           if (manifests.length !== 3) throw new Error('Expected three native platform builds');
           const targets = new Set();
@@ -74,14 +73,9 @@ jobs:
           JS
           cd dist
           sha256sum --check vnve-*.sha256
-      - name: Create GitHub Release
+      - name: Publish unreleased version
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          RELEASE_TAG: ${{ github.ref_name }}
-        run: |
-          args=(--verify-tag --generate-notes --title "VNVE $RELEASE_TAG")
-          if [[ "${RELEASE_TAG#cli-v}" == *-* ]]; then
-            args+=(--prerelease)
-          fi
-          gh release create "$RELEASE_TAG" dist/vnve-* LICENSE "${args[@]}"
+          RELEASE_TAG: ${{ steps.metadata.outputs.tag }}
+        run: bash scripts/publish-release.sh

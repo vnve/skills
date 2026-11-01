@@ -29,18 +29,29 @@ CI 在 macOS、Linux、Windows 的本机目标构建并运行完整测试，上�
 
 ## 自动创建 Release
 
-普通分支推送和 PR 运行构建、测试并上传 Actions artifacts；推送 `cli-v*` 标签还会在三个平台全部验证通过后，自动创建 GitHub Release，上传二进制、同名 `.sha256`、`.json` 及 `LICENSE`。发布步骤只使用本次运行的 artifacts，不重新构建。标签必须与根 package.json 的 version 和 skills/vnve/cli.json 的 version、releaseTag 一致，否则停止发布。带预发布后缀的版本自动标记为 prerelease；已存在的 Release 不覆盖。
+分支推送和 PR 运行构建、测试并上传 Actions artifacts。`main` 的三个平台全部验证通过后，发布 job 读取根 package.json 的 version 及 skills/vnve/cli.json 的 version、releaseTag；三者必须一致，标签格式为 `cli-v<version>`。
 
-例如发布 `0.3.0`，先将版本声明和代码提交、推送，再执行：
+- 版本已公开发布：跳过，保留原标签和附件。
+- 版本未发布：为本次通过验证的提交创建标签，再创建 Release 草稿、上传附件，全部上传成功后公开发布。
+- 同一提交的发布中途失败：重新运行 workflow，可继续上传草稿附件并发布。
+- 标签已指向其他提交：停止，修复后升级版本，不移动旧标签。
 
-```sh
-git tag -a cli-v0.3.0 -m "VNVE CLI 0.3.0"
-git push origin cli-v0.3.0
+发布只使用本次运行的 artifacts，不重新构建。附件包含二进制、同名 `.sha256`、`.json` 及 `LICENSE`；带预发布后缀的版本标记为 prerelease。网络或认证错误会使发布失败，不会被当作「版本不存在」。
+
+发布时手动更新两个版本文件，例如 `0.3.1`：
+
+```text
+package.json: version = 0.3.1
+skills/vnve/cli.json: version = 0.3.1, releaseTag = cli-v0.3.1
 ```
+
+将版本变更随代码合并到 `main`（直接推送也会触发），CI 通过后自动打标签并发布，无需手动执行 `git tag`。首次启用时，若当前版本尚未发布，也会自动发布。普通功能或文档提交未升级版本、且该版本已发布时，只运行验证并跳过发布。
+
+标签和 Release 在同一次 workflow 内完成；不依赖自动创建的标签再次触发 workflow。
 
 自动附件覆盖当前 CI 矩阵中 macOS、Linux、Windows runner 的本机架构，不代表 cli.json 列出的所有架构都已有发行包。其余架构仍需在目标系统验收后另行提供。
 
-源码与项目文档采用 [MIT License](../LICENSE)；第三方依赖与素材遵循各自许可。推送发布标签前完成真实浏览器与素材授权验收。macOS 的下载分发还需处理签名与公证，不能用本地编译通过冒充 Gatekeeper 验收。
+源码与项目文档采用 [MIT License](../LICENSE)；第三方依赖与素材遵循各自许可。合并版本变更前完成真实浏览器与素材授权验收。macOS 的下载分发还需处理签名与公证，不能用本地编译通过冒充 Gatekeeper 验收。
 
 然后在临时消费者环境，从公开 Release 下载并校验 CLI，安装 Skill、运行 doctor/create/inspect/compile/serve，完成浏览器导出。公开 GitHub 下载链路只有发布后才能验收。
 
